@@ -49,10 +49,11 @@
                         map:map
                     });
 
+
                     //ініціалізація інфоменю
                     let infowindow = new google.maps.InfoWindow({
-                        content: vm.points[point].text,
-                        title: vm.points[point].title
+                        content: vm.points[point].description,
+                        title: vm.points[point].title,
                     });
 
                     //інфо по кліку по маркеру
@@ -66,6 +67,14 @@
                         infowindow.open(map, marker);
                         bus.$emit("clickMarker", vm.points[point]);
                         activeInfoWindow = infowindow;
+                    });
+
+                    //закрити всі інфо-блоки по кліку
+                    google.maps.event.addListener(map, "click", function (e) {
+                        if (activeInfoWindow) {
+                            activeInfoWindow.close();
+                        }
+                        bus.$emit("closeWindow");
                     });
                 }
             },
@@ -102,24 +111,17 @@
                     center: latlng
                 });
 
-                var menuDisplayed = false;
-                var menuBox = null;
-                var mapCanvas = document.getElementById("map");
-
                 vm.getPoints();
                 vm.$on('updateMarkers', function () {
                     vm.markersInit(map)
                 })
 
-                //закрити всі інфо-блоки по кліку
-                google.maps.event.addListener(map, "click", function (e) {
-                    if (activeInfoWindow) {
-                        activeInfoWindow.close();
-                    }
-                    bus.$emit("closeWindow");
-                });
-
                 //show modal if rightclick
+
+                var menuDisplayed = false;
+                var menuBox = null;
+                var mapCanvas = document.getElementById("map");
+
                 if (vm.user) {
                     google.maps.event.addListener(map, "rightclick", function(event) {
                         vm.newPointLat = event.latLng.lat();

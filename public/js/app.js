@@ -1892,7 +1892,7 @@ google_maps__WEBPACK_IMPORTED_MODULE_0___default.a.VERSION = '3.38';
         }); //ініціалізація інфоменю
 
         var infowindow = new google.maps.InfoWindow({
-          content: vm.points[point].text,
+          content: vm.points[point].description,
           title: vm.points[point].title
         }); //інфо по кліку по маркеру
 
@@ -1905,6 +1905,14 @@ google_maps__WEBPACK_IMPORTED_MODULE_0___default.a.VERSION = '3.38';
           infowindow.open(map, marker);
           _app__WEBPACK_IMPORTED_MODULE_1__["bus"].$emit("clickMarker", vm.points[point]);
           activeInfoWindow = infowindow;
+        }); //закрити всі інфо-блоки по кліку
+
+        google.maps.event.addListener(map, "click", function (e) {
+          if (activeInfoWindow) {
+            activeInfoWindow.close();
+          }
+
+          _app__WEBPACK_IMPORTED_MODULE_1__["bus"].$emit("closeWindow");
         });
       };
 
@@ -1944,21 +1952,14 @@ google_maps__WEBPACK_IMPORTED_MODULE_0___default.a.VERSION = '3.38';
         zoom: 15,
         center: latlng
       });
-      var menuDisplayed = false;
-      var menuBox = null;
-      var mapCanvas = document.getElementById("map");
       vm.getPoints();
       vm.$on('updateMarkers', function () {
         vm.markersInit(map);
-      }); //закрити всі інфо-блоки по кліку
-
-      google.maps.event.addListener(map, "click", function (e) {
-        if (activeInfoWindow) {
-          activeInfoWindow.close();
-        }
-
-        _app__WEBPACK_IMPORTED_MODULE_1__["bus"].$emit("closeWindow");
       }); //show modal if rightclick
+
+      var menuDisplayed = false;
+      var menuBox = null;
+      var mapCanvas = document.getElementById("map");
 
       if (vm.user) {
         google.maps.event.addListener(map, "rightclick", function (event) {
@@ -6682,7 +6683,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#sidebarCollapse[data-v-54833a28] {\n    width: 40px;\n    height: 40px;\n    background: #f5f5f5;\n}\n#sidebarCollapse span[data-v-54833a28] {\n    width: 80%;\n    height: 2px;\n    margin: 0 auto;\n    display: block;\n    background: #555;\n    -webkit-transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n}\n#sidebarCollapse span[data-v-54833a28]:first-of-type {\n    /* rotate first one */\n    -webkit-transform: rotate(45deg) translate(2px, 2px);\n            transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse span[data-v-54833a28]:nth-of-type(2) {\n    /* second one is not visible */\n    opacity: 0;\n}\n#sidebarCollapse span[data-v-54833a28]:last-of-type {\n    /* rotate third one */\n    -webkit-transform: rotate(-45deg) translate(1px, -1px);\n            transform: rotate(-45deg) translate(1px, -1px);\n}\n#sidebarCollapse.active span[data-v-54833a28] {\n    /* no rotation */\n    -webkit-transform: none;\n            transform: none;\n    /* all bars are visible */\n    opacity: 1;\n    margin: 5px auto;\n}\n#sidebar[data-v-54833a28] {\n    min-width: 400px;\n    max-width: 400px;\n    position: relative;\n    height: 100%;\n    z-index: 1020;\n    background: #7386D5;\n    color: #fff;\n    -webkit-transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    -webkit-transform-origin: center left;\n            transform-origin: center left; /* Set the transformed position of sidebar to center left side. */\n}\n#sidebar.active[data-v-54833a28] {\n    margin-left: -250px;\n    -webkit-transform: rotateY(100deg);\n            transform: rotateY(100deg); /* Rotate sidebar vertically by 100 degrees. */\n}\n@media (max-width: 768px) {\n    /* Reversing the behavior of the sidebar:\n       it'll be rotated vertically and off canvas by default,\n       collapsing in on toggle button click with removal of\n       the vertical rotation.   */\n#sidebar[data-v-54833a28] {\n        margin-left: -250px;\n        -webkit-transform: rotateY(100deg);\n                transform: rotateY(100deg);\n}\n#sidebar.active[data-v-54833a28] {\n        margin-left: 0;\n        -webkit-transform: none;\n                transform: none;\n}\n\n    /* Reversing the behavior of the bars:\n       Removing the rotation from the first,\n       last bars and reappear the second bar on default state,\n       and giving them a vertical margin */\n#sidebarCollapse span[data-v-54833a28]:first-of-type,\n    #sidebarCollapse span[data-v-54833a28]:nth-of-type(2),\n    #sidebarCollapse span[data-v-54833a28]:last-of-type {\n        -webkit-transform: none;\n                transform: none;\n        opacity: 1;\n        margin: 5px auto;\n}\n\n    /* Removing the vertical margin and make the first and last bars rotate again when the sidebar is open, hiding the second bar */\n#sidebarCollapse.active span[data-v-54833a28] {\n        margin: 0 auto;\n}\n#sidebarCollapse.active span[data-v-54833a28]:first-of-type {\n        -webkit-transform: rotate(45deg) translate(2px, 2px);\n                transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse.active span[data-v-54833a28]:nth-of-type(2) {\n        opacity: 0;\n}\n#sidebarCollapse.active span[data-v-54833a28]:last-of-type {\n        -webkit-transform: rotate(-45deg) translate(1px, -1px);\n                transform: rotate(-45deg) translate(1px, -1px);\n}\n}\n", ""]);
+exports.push([module.i, "\n#sidebarCollapse[data-v-54833a28] {\n    width: 40px;\n    height: 40px;\n    background: #f5f5f5;\n}\n#sidebarCollapse span[data-v-54833a28] {\n    width: 80%;\n    height: 2px;\n    margin: 0 auto;\n    display: block;\n    background: #ffffff;\n    -webkit-transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n}\n#sidebarCollapse span[data-v-54833a28]:first-of-type {\n    /* rotate first one */\n    -webkit-transform: rotate(45deg) translate(2px, 2px);\n            transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse span[data-v-54833a28]:nth-of-type(2) {\n    /* second one is not visible */\n    opacity: 0;\n}\n#sidebarCollapse span[data-v-54833a28]:last-of-type {\n    /* rotate third one */\n    -webkit-transform: rotate(-45deg) translate(1px, -1px);\n            transform: rotate(-45deg) translate(1px, -1px);\n}\n#sidebarCollapse.active span[data-v-54833a28] {\n    /* no rotation */\n    -webkit-transform: none;\n            transform: none;\n    /* all bars are visible */\n    opacity: 1;\n    margin: 5px auto;\n}\n#sidebar[data-v-54833a28] {\n    min-width: 400px;\n    max-width: 400px;\n    position: relative;\n    height: 100%;\n    z-index: 1020;\n    background: #7386D5;\n    color: #fff;\n    -webkit-transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    -webkit-transform-origin: center left;\n            transform-origin: center left; /* Set the transformed position of sidebar to center left side. */\n}\n#sidebar.active[data-v-54833a28] {\n    margin-left: -250px;\n    -webkit-transform: rotateY(100deg);\n            transform: rotateY(100deg); /* Rotate sidebar vertically by 100 degrees. */\n}\n@media (max-width: 768px) {\n    /* Reversing the behavior of the sidebar:\n       it'll be rotated vertically and off canvas by default,\n       collapsing in on toggle button click with removal of\n       the vertical rotation.   */\n#sidebar[data-v-54833a28] {\n        margin-left: -250px;\n        -webkit-transform: rotateY(100deg);\n                transform: rotateY(100deg);\n}\n#sidebar.active[data-v-54833a28] {\n        margin-left: 0;\n        -webkit-transform: none;\n                transform: none;\n}\n\n    /* Reversing the behavior of the bars:\n       Removing the rotation from the first,\n       last bars and reappear the second bar on default state,\n       and giving them a vertical margin */\n#sidebarCollapse span[data-v-54833a28]:first-of-type,\n    #sidebarCollapse span[data-v-54833a28]:nth-of-type(2),\n    #sidebarCollapse span[data-v-54833a28]:last-of-type {\n        -webkit-transform: none;\n                transform: none;\n        opacity: 1;\n        margin: 5px auto;\n}\n\n    /* Removing the vertical margin and make the first and last bars rotate again when the sidebar is open, hiding the second bar */\n#sidebarCollapse.active span[data-v-54833a28] {\n        margin: 0 auto;\n}\n#sidebarCollapse.active span[data-v-54833a28]:first-of-type {\n        -webkit-transform: rotate(45deg) translate(2px, 2px);\n                transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse.active span[data-v-54833a28]:nth-of-type(2) {\n        opacity: 0;\n}\n#sidebarCollapse.active span[data-v-54833a28]:last-of-type {\n        -webkit-transform: rotate(-45deg) translate(1px, -1px);\n                transform: rotate(-45deg) translate(1px, -1px);\n}\n}\n", ""]);
 
 // exports
 
@@ -38795,7 +38796,9 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("p", [
-            _vm._v("\n            " + _vm._s(_vm.point.text) + "\n        ")
+            _vm._v(
+              "\n            " + _vm._s(_vm.point.description) + "\n        "
+            )
           ])
         ])
       : _vm._e()

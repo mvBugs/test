@@ -7,7 +7,7 @@
             </div>
 
             <p>
-                {{ point.text }}
+                {{ point.description }}
             </p>
         </nav>
     </div>
@@ -55,7 +55,7 @@
         height: 2px;
         margin: 0 auto;
         display: block;
-        background: #555;
+        background: #ffffff;
         transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     }
 
