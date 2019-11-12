@@ -58,19 +58,25 @@
 
                     //інфо по кліку по маркеру
                     var activeInfoWindow;
-                    google.maps.event.addListener(marker, 'click', function() {
+                    google.maps.event.addListener(marker, 'mouseover', function() {
                         if (activeInfoWindow) {
                             activeInfoWindow.close();
                         }
-                        map.setCenter(new google.maps.LatLng(vm.points[point].lat, vm.points[point].lng));
+                        // map.setCenter(new google.maps.LatLng(vm.points[point].lat, vm.points[point].lng));
 
                         infowindow.open(map, marker);
-                        bus.$emit("clickMarker", vm.points[point]);
+                        // bus.$emit("clickMarker", vm.points[point]);
                         activeInfoWindow = infowindow;
                     });
 
+                    google.maps.event.addListener(marker, 'click', function() {
+                        map.setCenter(new google.maps.LatLng(vm.points[point].lat, vm.points[point].lng));
+                        bus.$emit("clickMarker", vm.points[point]);
+                    })
+
+
                     //закрити всі інфо-блоки по кліку
-                    google.maps.event.addListener(map, "click", function (e) {
+                    google.maps.event.addListener(map, "mouseover", function (e) {
                         if (activeInfoWindow) {
                             activeInfoWindow.close();
                         }

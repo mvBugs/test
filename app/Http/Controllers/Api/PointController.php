@@ -77,7 +77,8 @@ class PointController extends Controller
      */
     public function show($id)
     {
-        //
+        $point = Point::findOrFail($id);
+        return PointResource::make($point);
     }
 
     /**

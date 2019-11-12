@@ -14,9 +14,9 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Назва</label>
+                                        <label for="input" class="col-sm-2 col-form-label">Назва</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputPassword" placeholder="Введіть назву ..." v-model="point.title">
+                                            <input type="text" class="form-control" id="input" placeholder="Введіть назву ..." v-model="point.title">
                                         </div>
                                     </div>
                                     <div class="form-group row">

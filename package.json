@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "google-maps": "^3.3.0",
+        "vue-fancybox": "^1.0.3",
         "vue-google-maps": "^0.1.21"
     }
 }

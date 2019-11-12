@@ -1896,18 +1896,22 @@ google_maps__WEBPACK_IMPORTED_MODULE_0___default.a.VERSION = '3.38';
           title: vm.points[point].title
         }); //інфо по кліку по маркеру
 
-        google.maps.event.addListener(marker, 'click', function () {
+        google.maps.event.addListener(marker, 'mouseover', function () {
           if (activeInfoWindow) {
             activeInfoWindow.close();
-          }
+          } // map.setCenter(new google.maps.LatLng(vm.points[point].lat, vm.points[point].lng));
 
-          map.setCenter(new google.maps.LatLng(vm.points[point].lat, vm.points[point].lng));
-          infowindow.open(map, marker);
-          _app__WEBPACK_IMPORTED_MODULE_1__["bus"].$emit("clickMarker", vm.points[point]);
+
+          infowindow.open(map, marker); // bus.$emit("clickMarker", vm.points[point]);
+
           activeInfoWindow = infowindow;
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+          map.setCenter(new google.maps.LatLng(vm.points[point].lat, vm.points[point].lng));
+          _app__WEBPACK_IMPORTED_MODULE_1__["bus"].$emit("clickMarker", vm.points[point]);
         }); //закрити всі інфо-блоки по кліку
 
-        google.maps.event.addListener(map, "click", function (e) {
+        google.maps.event.addListener(map, "mouseover", function (e) {
           if (activeInfoWindow) {
             activeInfoWindow.close();
           }
@@ -2146,6 +2150,48 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../app */ "./resources/js/app.js");
+/* harmony import */ var _axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../axios */ "./resources/js/axios.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2162,12 +2208,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SidebarComponent",
+  props: {
+    user: ''
+  },
   data: function data() {
     return {
+      comment: {
+        name: '',
+        text: '',
+        point_id: ''
+      },
       point: null,
-      show: false
+      show: false,
+      images: []
     };
   },
   mounted: function mounted() {
@@ -2175,7 +2231,15 @@ __webpack_require__.r(__webpack_exports__);
 
     _app__WEBPACK_IMPORTED_MODULE_0__["bus"].$on('clickMarker', function (point) {
       _this.point = point;
+      _this.comment.point_id = point.id;
+      _this.images = point.images;
       _this.show = true;
+
+      if (_this.user) {
+        _this.comment.name = _this.user.name;
+      }
+
+      _this.comment.text = '';
     });
     _app__WEBPACK_IMPORTED_MODULE_0__["bus"].$on('closeWindow', function () {
       _this.point = null;
@@ -2183,7 +2247,31 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   computed: {},
-  methods: {}
+  methods: {
+    submit: function submit() {
+      var vm = this;
+      var comment = vm.toFormData(vm.comment);
+      _axios__WEBPACK_IMPORTED_MODULE_1__["HTTP"].post('comment/store', comment, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (responce) {
+        _axios__WEBPACK_IMPORTED_MODULE_1__["HTTP"].get('points/' + vm.point.id).then(function (response) {
+          vm.point = response.data.data;
+          vm.comment.text = '';
+        });
+      });
+    },
+    toFormData: function toFormData(obj) {
+      var formData = new FormData();
+
+      for (var key in obj) {
+        formData.append(key, obj[key]);
+      }
+
+      return formData;
+    }
+  }
 });
 
 /***/ }),
@@ -6683,7 +6771,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n#sidebarCollapse[data-v-54833a28] {\n    width: 40px;\n    height: 40px;\n    background: #f5f5f5;\n}\n#sidebarCollapse span[data-v-54833a28] {\n    width: 80%;\n    height: 2px;\n    margin: 0 auto;\n    display: block;\n    background: #ffffff;\n    -webkit-transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n}\n#sidebarCollapse span[data-v-54833a28]:first-of-type {\n    /* rotate first one */\n    -webkit-transform: rotate(45deg) translate(2px, 2px);\n            transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse span[data-v-54833a28]:nth-of-type(2) {\n    /* second one is not visible */\n    opacity: 0;\n}\n#sidebarCollapse span[data-v-54833a28]:last-of-type {\n    /* rotate third one */\n    -webkit-transform: rotate(-45deg) translate(1px, -1px);\n            transform: rotate(-45deg) translate(1px, -1px);\n}\n#sidebarCollapse.active span[data-v-54833a28] {\n    /* no rotation */\n    -webkit-transform: none;\n            transform: none;\n    /* all bars are visible */\n    opacity: 1;\n    margin: 5px auto;\n}\n#sidebar[data-v-54833a28] {\n    min-width: 400px;\n    max-width: 400px;\n    position: relative;\n    height: 100%;\n    z-index: 1020;\n    background: #7386D5;\n    color: #fff;\n    -webkit-transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    -webkit-transform-origin: center left;\n            transform-origin: center left; /* Set the transformed position of sidebar to center left side. */\n}\n#sidebar.active[data-v-54833a28] {\n    margin-left: -250px;\n    -webkit-transform: rotateY(100deg);\n            transform: rotateY(100deg); /* Rotate sidebar vertically by 100 degrees. */\n}\n@media (max-width: 768px) {\n    /* Reversing the behavior of the sidebar:\n       it'll be rotated vertically and off canvas by default,\n       collapsing in on toggle button click with removal of\n       the vertical rotation.   */\n#sidebar[data-v-54833a28] {\n        margin-left: -250px;\n        -webkit-transform: rotateY(100deg);\n                transform: rotateY(100deg);\n}\n#sidebar.active[data-v-54833a28] {\n        margin-left: 0;\n        -webkit-transform: none;\n                transform: none;\n}\n\n    /* Reversing the behavior of the bars:\n       Removing the rotation from the first,\n       last bars and reappear the second bar on default state,\n       and giving them a vertical margin */\n#sidebarCollapse span[data-v-54833a28]:first-of-type,\n    #sidebarCollapse span[data-v-54833a28]:nth-of-type(2),\n    #sidebarCollapse span[data-v-54833a28]:last-of-type {\n        -webkit-transform: none;\n                transform: none;\n        opacity: 1;\n        margin: 5px auto;\n}\n\n    /* Removing the vertical margin and make the first and last bars rotate again when the sidebar is open, hiding the second bar */\n#sidebarCollapse.active span[data-v-54833a28] {\n        margin: 0 auto;\n}\n#sidebarCollapse.active span[data-v-54833a28]:first-of-type {\n        -webkit-transform: rotate(45deg) translate(2px, 2px);\n                transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse.active span[data-v-54833a28]:nth-of-type(2) {\n        opacity: 0;\n}\n#sidebarCollapse.active span[data-v-54833a28]:last-of-type {\n        -webkit-transform: rotate(-45deg) translate(1px, -1px);\n                transform: rotate(-45deg) translate(1px, -1px);\n}\n}\n", ""]);
+exports.push([module.i, "\n#sidebarCollapse[data-v-54833a28] {\n    width: 40px;\n    height: 40px;\n    background: #f5f5f5;\n}\n#sidebarCollapse span[data-v-54833a28] {\n    width: 80%;\n    height: 2px;\n    margin: 0 auto;\n    display: block;\n    background: #ffffff;\n    -webkit-transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n    transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);\n}\n#sidebarCollapse span[data-v-54833a28]:first-of-type {\n    /* rotate first one */\n    -webkit-transform: rotate(45deg) translate(2px, 2px);\n            transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse span[data-v-54833a28]:nth-of-type(2) {\n    /* second one is not visible */\n    opacity: 0;\n}\n#sidebarCollapse span[data-v-54833a28]:last-of-type {\n    /* rotate third one */\n    -webkit-transform: rotate(-45deg) translate(1px, -1px);\n            transform: rotate(-45deg) translate(1px, -1px);\n}\n#sidebarCollapse.active span[data-v-54833a28] {\n    /* no rotation */\n    -webkit-transform: none;\n            transform: none;\n    /* all bars are visible */\n    opacity: 1;\n    margin: 5px auto;\n}\n#sidebar[data-v-54833a28] {\n    padding: 10px;\n    min-width: 500px;\n    max-width: 500px;\n    position: relative;\n    height: 100%;\n    z-index: 1020;\n    background: #fff;\n    color: #7386D5;\n    -webkit-transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    transition: all 0.6s cubic-bezier(0.945, 0.020, 0.270, 0.665);\n    -webkit-transform-origin: center left;\n            transform-origin: center left; /* Set the transformed position of sidebar to center left side. */\n    padding-bottom: 100px;\n    overflow: auto;\n}\n.text[data-v-54833a28]{\n    text-align: justify;\n}\n#sidebar.active[data-v-54833a28] {\n    margin-left: -250px;\n    -webkit-transform: rotateY(100deg);\n            transform: rotateY(100deg); /* Rotate sidebar vertically by 100 degrees. */\n}\n@media (max-width: 768px) {\n    /* Reversing the behavior of the sidebar:\n       it'll be rotated vertically and off canvas by default,\n       collapsing in on toggle button click with removal of\n       the vertical rotation.   */\n#sidebar[data-v-54833a28] {\n        margin-left: -250px;\n        -webkit-transform: rotateY(100deg);\n                transform: rotateY(100deg);\n}\n#sidebar.active[data-v-54833a28] {\n        margin-left: 0;\n        -webkit-transform: none;\n                transform: none;\n}\n\n    /* Reversing the behavior of the bars:\n       Removing the rotation from the first,\n       last bars and reappear the second bar on default state,\n       and giving them a vertical margin */\n#sidebarCollapse span[data-v-54833a28]:first-of-type,\n    #sidebarCollapse span[data-v-54833a28]:nth-of-type(2),\n    #sidebarCollapse span[data-v-54833a28]:last-of-type {\n        -webkit-transform: none;\n                transform: none;\n        opacity: 1;\n        margin: 5px auto;\n}\n\n    /* Removing the vertical margin and make the first and last bars rotate again when the sidebar is open, hiding the second bar */\n#sidebarCollapse.active span[data-v-54833a28] {\n        margin: 0 auto;\n}\n#sidebarCollapse.active span[data-v-54833a28]:first-of-type {\n        -webkit-transform: rotate(45deg) translate(2px, 2px);\n                transform: rotate(45deg) translate(2px, 2px);\n}\n#sidebarCollapse.active span[data-v-54833a28]:nth-of-type(2) {\n        opacity: 0;\n}\n#sidebarCollapse.active span[data-v-54833a28]:last-of-type {\n        -webkit-transform: rotate(-45deg) translate(1px, -1px);\n                transform: rotate(-45deg) translate(1px, -1px);\n}\n}\n\n/*comments*/\n.pb-cmnt-container[data-v-54833a28] {\n      font-family: Lato;\n      margin-top: 20px;\n}\n.pb-cmnt-textarea[data-v-54833a28] {\n    resize: none;\n    padding: 20px;\n    height: 130px;\n    width: 100%;\n    border: 1px solid #F2F2F2;\n}\n", ""]);
 
 // exports
 
@@ -38562,7 +38650,7 @@ var render = function() {
                               "label",
                               {
                                 staticClass: "col-sm-2 col-form-label",
-                                attrs: { for: "inputPassword" }
+                                attrs: { for: "input" }
                               },
                               [_vm._v("Назва")]
                             ),
@@ -38580,7 +38668,7 @@ var render = function() {
                                 staticClass: "form-control",
                                 attrs: {
                                   type: "text",
-                                  id: "inputPassword",
+                                  id: "input",
                                   placeholder: "Введіть назву ..."
                                 },
                                 domProps: { value: _vm.point.title },
@@ -38791,14 +38879,176 @@ var render = function() {
   return _c("div", [
     _vm.show
       ? _c("nav", { attrs: { id: "sidebar" } }, [
-          _c("div", { staticClass: "sidebar-header" }, [
-            _c("h3", [_vm._v(_vm._s(_vm.point.title))])
+          _c("div", { staticClass: "container" }, [
+            _c("div", { staticClass: "sidebar-header" }, [
+              _c("h3", [_vm._v(_vm._s(_vm.point.title))])
+            ]),
+            _vm._v(" "),
+            _vm.point.description ? _c("hr") : _vm._e(),
+            _vm._v(" "),
+            _c("p", { staticClass: "text" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.point.description) +
+                  "\n            "
+              )
+            ]),
+            _vm._v(" "),
+            _vm.images.count ? _c("hr") : _vm._e(),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "row" },
+              _vm._l(_vm.images, function(img) {
+                return _c("div", { staticClass: "col-6" }, [
+                  _c("img", {
+                    staticClass: "img-thumbnail",
+                    attrs: { src: img, alt: "" }
+                  })
+                ])
+              }),
+              0
+            )
           ]),
           _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n            " + _vm._s(_vm.point.description) + "\n        "
-            )
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "pb-cmnt-container" }, [
+            _vm.point.comments.length
+              ? _c(
+                  "div",
+                  { staticClass: "card card-comments mb-3 wow fadeIn" },
+                  [
+                    _c("div", { staticClass: "card-header font-weight-bold" }, [
+                      _vm._v(_vm._s(_vm.point.comments.length) + " comments")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-body" },
+                      _vm._l(_vm.point.comments, function(comment) {
+                        return _c("div", [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "media d-block d-md-flex mt-3 comment"
+                            },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "media-body text-center text-md-left ml-md-3 ml-0"
+                                },
+                                [
+                                  _c("div", [
+                                    _c(
+                                      "h5",
+                                      { staticClass: "mt-0 font-weight-bold" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(comment.name) +
+                                            "\n                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("span", { staticClass: "pull-right" }, [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(comment.created_at) +
+                                          "\n                                "
+                                      )
+                                    ])
+                                  ]),
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(comment.text) +
+                                      "\n                            "
+                                  )
+                                ]
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("hr")
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group row" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "col-sm-1 col-form-label",
+                  attrs: { for: "input" }
+                },
+                [_vm._v("Ім'я")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-6" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.comment.name,
+                      expression: "comment.name"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", id: "input", placeholder: "Ім'я ..." },
+                  domProps: { value: _vm.comment.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.comment, "name", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.comment.text,
+                  expression: "comment.text"
+                }
+              ],
+              staticClass: "pb-cmnt-textarea",
+              attrs: { placeholder: "Залиште свій відгук" },
+              domProps: { value: _vm.comment.text },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.comment, "text", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "btn-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary pull-right",
+                  attrs: { type: "button" },
+                  on: { click: _vm.submit }
+                },
+                [_vm._v("Відправити")]
+              )
+            ])
           ])
         ])
       : _vm._e()

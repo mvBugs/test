@@ -1,24 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @php
-        $text = json_encode('fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf
-        dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg
-        fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf
-        gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf
-        dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf
-        gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg
-        fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg
-        fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg
-        fg fsd dsf gdsfghdshfgsdf dsfhg fg fsd dsf gdsfghdshfgsdf dsfhg');
-    $points = [
-        ['lat' => 50.147441, 'lng' => 25.125092, 'text' => '<p> Point 1</p>', 'title' => 'Test 1'],
-        ['lat' => 50.247441, 'lng' => 25.225092, 'text' => '<p> Point 2</p>', 'title' => 'Test 2'],
-        ['lat' => 50.347441, 'lng' => 25.325092, 'text' => '<p> Point 3</p>', 'title' => 'Test 3'],
-        ['lat' => 50.447441, 'lng' => 25.425092, 'text' => '<p> Point 4</p>', 'title' => 'Test 4'],
-        ['lat' => 50.547441, 'lng' => 25.025092, 'text' => '<p> Point 5</p>', 'title' => 'Test 5'],
-    ];
-    @endphp
     <div class="box" id="app">
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
@@ -73,6 +55,9 @@
             </nav>
         <div class="content">
             <sidebar-component
+                @auth
+                :user="{{ auth()->user() }}"
+                @endauth
             ></sidebar-component>
             <map-component
                 {{--:points="{{ json_encode($points) }}"--}}
