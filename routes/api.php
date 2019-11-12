@@ -17,7 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware' => ['web']], function () {
-    Route::resource('points', 'Api\PointController');
+    Route::resource('points', 'Api\PointController')->only(['index', 'store', 'show']);
 });
 Route::post('comment/store', 'Api\CommentController@store');
 

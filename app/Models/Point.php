@@ -22,6 +22,9 @@ class Point extends Model implements HasMedia
         //...
         $this->addMediaConversion('front')
             ->crop('crop-center', 200, 200);
+
+        $this->addMediaConversion('thumb')
+            ->crop('crop-center', 50, 50);
     }
 
     public function getImagesAttribute()

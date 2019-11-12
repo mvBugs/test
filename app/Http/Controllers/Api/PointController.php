@@ -33,7 +33,7 @@ class PointController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
