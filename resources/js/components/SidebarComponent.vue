@@ -81,7 +81,6 @@
                 this.point = point;
                 this.comment.point_id = point.id;
                 this.images = point.images;
-                console.log(this.point)
                 this.show = true;
                 if (this.user) {
                     this.comment.name = this.user.name;
