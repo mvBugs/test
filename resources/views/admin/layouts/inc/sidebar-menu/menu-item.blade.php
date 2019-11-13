@@ -1,4 +1,4 @@
-@if($item->children->count() && $item->hasAccessToTreeview())
+@if($item->children->count())
     <li class="treeview @if($item->isTreeviewOpen())menu-open @endif">
         <a href="{{ $item->getUrl() ?: '#' }}" {{ $item->getTargetHtml() }}>
             <i class="@empty($item->data['icon']) fa fa-circle-o text-green @else {{ $item->data['icon'] }} @endempty"></i>
@@ -15,7 +15,7 @@
     </li>
 @elseif(! empty($item->data['header']))
     <li class="header">{{ $item->name }}</li>
-@elseif($item->hasAccessToItem())
+@else
     <li class="@if($item->isActive())active @endif">
         <a href="{{ $item->getUrl() ?: '' }}" {{ $item->getTargetHtml() }}>
             <i class="@empty($item->data['icon']) fa fa-circle-o text-green @else {{ $item->data['icon'] }} @endempty"></i>

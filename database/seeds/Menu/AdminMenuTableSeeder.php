@@ -34,7 +34,6 @@ class AdminMenuTableSeeder extends MenuBaseSeeder
                         'name' => 'Меню',
                         'path' => '',
                         'data' => [
-                            'permissions' => [],
                             'icon' => '',
                             'header' => 1,
                         ],
@@ -44,7 +43,6 @@ class AdminMenuTableSeeder extends MenuBaseSeeder
                         'name' => 'Головна',
                         'path' => 'admin',
                         'data' => [
-                            'permissions' => ['dashboard.home.read'],
                             'icon' => 'fa fa-dashboard',
                             'pattern_url' => '\S*admin\/?((\?{1}\S*)|$)',
                         ],
@@ -53,7 +51,6 @@ class AdminMenuTableSeeder extends MenuBaseSeeder
                         'name' => 'Points',
                         'path' => 'admin/points',
                         'data' => [
-                            'permissions' => ['dashboard.home.read'],
                             'icon' => 'fa fa-users',
                             'pattern_url' => '\S*admin\/?((\?{1}\S*)|$)',
                         ],

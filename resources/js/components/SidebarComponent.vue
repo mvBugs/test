@@ -14,6 +14,7 @@
                 <div class="row">
                     <div class="col-6" v-for="img in images"><img :src="img" alt="" class="img-thumbnail"></div>
                 </div>
+                <a :href="'/admin/points/' + point.id + '/edit'" v-if="user.id == point.user_id">Edit</a>
             </div>
             <hr>
             <div class="pb-cmnt-container">
@@ -80,6 +81,7 @@
                 this.point = point;
                 this.comment.point_id = point.id;
                 this.images = point.images;
+                console.log(this.point)
                 this.show = true;
                 if (this.user) {
                     this.comment.name = this.user.name;

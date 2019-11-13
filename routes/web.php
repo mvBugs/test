@@ -20,6 +20,6 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], function () {
-    Route::view('/', 'admin.home');
+    Route::view('/', 'admin.home')->name('home');
     Route::resource('points', 'PointController');
 });

@@ -20,6 +20,7 @@ class PointResource extends JsonResource
             'description' => $this->description,
             'lat' => $this->lat,
             'lng' => $this->lng,
+            'user_id' => $this->user_id,
             'images' => $this->images,
             'comments' => $this->comments
         ];

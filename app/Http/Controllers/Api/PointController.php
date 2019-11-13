@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PointRequest;
 use App\Http\Resources\PointResource;
 use App\Models\Point;
 use Illuminate\Http\Request;
@@ -42,18 +43,8 @@ class PointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PointRequest $request)
     {
-        $request->validate([
-            'lat' => 'required',
-            'lng' => 'required',
-            'title' => 'required',
-            'description'=> 'required',
-            'images.*' => '',
-        ]);
-
-//        $user = Auth::user();
-
         $point = Auth::user()->points()->create([
             'title' => $request->title,
             'description' => $request->description,
