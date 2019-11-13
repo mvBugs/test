@@ -16,18 +16,18 @@
 4. php artisan key:generate
 5. php artisan storage:link
 6. Редагувати налаштування в файлі .env
-    Для прикладу:
-    APP_URL=http://map.test
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=laravel
-    DB_USERNAME=root
-    DB_PASSWORD=
-    MIX_APP_REST_API="http://map.test/api"
-    php artisan migrate --seed
-7. npm i
-8. npm run prod
+    Для прикладу:<br>
+    APP_URL=http://map.test<br>
+    DB_CONNECTION=mysql<br>
+    DB_HOST=127.0.0.1<br>
+    DB_PORT=3306<br>
+    DB_DATABASE=laravel<br>
+    DB_USERNAME=root<br>
+    DB_PASSWORD=<br>
+    MIX_APP_REST_API="http://map.test/api"<br>
+7. php artisan migrate --seed
+8. npm i
+9. npm run prod
 
 
 ## License
